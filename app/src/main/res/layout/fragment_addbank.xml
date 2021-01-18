@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.addBank.AddBankFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80"/>
+
+    <EditText
+        android:id="@+id/bank_sms"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/one"
+        app:layout_constraintWidth_percent="0.65"
+        android:hint="@string/enter_bank_sms"
+        android:background="@drawable/full_border"
+        app:layout_constraintHeight_percent="0.15"
+        android:inputType="textMultiLine"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/bank_sms"
+        app:layout_constraintBottom_toTopOf="@id/bank_sms"
+        android:text ="@string/enter_bank_sms_title"
+        android:textColor="@color/primaryGreen"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/bank_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/two"
+        app:layout_constraintWidth_percent="0.65"
+        android:hint="@string/bank_name"
+        android:background="@drawable/border"
+        android:inputType="text"
+        android:maxLines="1"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/bank_name"
+        app:layout_constraintBottom_toTopOf="@id/bank_name"
+        android:text ="@string/bank_name_title"
+        android:textColor="@color/primaryGreen"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/bank_num"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/three"
+        app:layout_constraintWidth_percent="0.65"
+        android:hint="@string/bank_num"
+        android:background="@drawable/border"
+        android:inputType="text"
+        android:maxLines="1"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/bank_num"
+        app:layout_constraintBottom_toTopOf="@id/bank_num"
+        android:text ="@string/bank_num_title"
+        android:textColor="@color/primaryGreen"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/add_bank"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/four"
+        app:layout_constraintWidth_percent="0.65"
+        app:layout_constraintHeight_percent="0.06"
+        android:background="@drawable/green_button"
+        android:text="@string/add"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:text="@string/add_title"
+        android:textColor="@color/primaryGreen"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

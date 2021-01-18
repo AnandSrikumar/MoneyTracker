@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">MoneyTrack</string>
+    <string name="Enter_password">Enter your password</string>
+    <string name="password">Password</string>
+    <string name="go">GO</string>
+    <string name="getstarted">Get Started</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="title">MONEY TRACKER</string>
+    <string name="title_activity_details_page">details_page</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Money Tracker</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Add Bank</string>
+    <string name="menu_slideshow">Remove Bank</string>
+    <string name="confirm">Confirm</string>
+    <string name="set_password">Set password</string>
+    <string name="confirm_here">Confirm password</string>
+    <string name="back">Back</string>
+    <string name="total_today">Today total</string>
+    <string name="total_month">Month total</string>
+    <string name="spend_rupee">The spending is in rupees</string>
+    <string name="spend_dollar">The spending is in dollars</string>
+    <string name="enter_bank_sms">Copy paste the bank SMS here and put # before the money ex: RS. #117 ...</string>
+    <string name="enter_bank_sms_title">Enter Bank SMS</string>
+    <string name="bank_name">Give a name to the bank</string>
+    <string name="bank_name_title">Bank name</string>
+    <string name="bank_num">Enter the num which appears in SMS ex: XXX65656</string>
+    <string name="bank_num_title">Bank number</string>
+    <string name="add">Add Bank</string>
+    <string name="add_title">Add a bank here</string>
+    <string name="remove_bank">Remove Bank</string>
+    <string name="remove">Remove</string>
+    <string name="select_all">Select all</string>
+    <string name="logout">logout</string>
+    <string name="caution">*Note: If any spending data exists with app, it will be deleted. If you
+     forgot password, go back and click forgot password! This page is only for first time password setting</string>
+    <string name="reset_password">Reset your password</string>
+    <string name = "enter_bank_num">Enter the bank num</string>
+    <string name="enter_new_password">New password</string>
+    <string name="check_details">Check your details here</string>
+    <string name="check_day">Check a day</string>
+    <string name="check_month">Check a month</string>
+    <string name="date_format_day">MM/DD/YYYY</string>
+    <string name = "date_format_month">MM/YYYY</string>
+</resources>
