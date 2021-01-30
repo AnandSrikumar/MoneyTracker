@@ -66,7 +66,8 @@ public class SMSManager extends AppCompatActivity {
                 String body = cursor.getString(cursor.getColumnIndex("body"));
                 Log.d(TAG, body);
                 for(String num: mapping.keySet()){
-                    if((body.contains("debited") || body.contains("transaction of")) &&
+                    if((body.toLowerCase().contains("debited") ||
+                            body.toLowerCase().contains("transaction of")) &&
                     body.toLowerCase().contains(num.toLowerCase())) {
                         char left = body.charAt(body.toLowerCase().
                                 indexOf(num.toLowerCase()) -1);

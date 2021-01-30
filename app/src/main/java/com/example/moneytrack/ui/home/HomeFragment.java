@@ -1,16 +1,18 @@
 package com.example.moneytrack.ui.home;
 
-import android.content.Context;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+
 import android.text.InputType;
-import android.text.Layout;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,10 +22,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.moneytrack.R;
@@ -32,6 +35,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.moneytrack.SMSManager;
+import com.example.moneytrack.UserData;
 
 
 import java.util.ArrayList;
@@ -54,6 +58,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private Map<Integer,String> clicked = new HashMap<>();
     private Spinner dropDown;
     private String selectedBank;
+    List<UserData> userData;
     SMSManager manager;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +71,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     }
     public void activityManager(){
         try {
+
             dropDown = root.findViewById(R.id.drop_down_bank);
             currency = root.findViewById(R.id.currency);
             currency.setText("Spending displayed in rupees");
@@ -80,6 +86,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             ImageButton mon_c = root.findViewById(R.id.check_a_month_button);
             day_c.setOnClickListener(this);
             mon_c.setOnClickListener(this);
+            helper.updateRow("date","last_log",manager.getTodayDate(),"","");
+            Log.d(TAG, helper.queryDate());
         }catch(Exception e){
             Log.e(TAG, e.getMessage());
             Log.d(TAG,"Exception occured");
@@ -105,10 +113,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             Log.d(TAG, "Added a view");
         }
         else{
-
+            userData = new ArrayList<>();
+            int id = 0;
             for(String name:allBanks){
-                makingLinearLayoutTop(name);
-
+                makingLinearLayoutTop(name, id);
+                id += 10;
             }
         }
         allBanks.add("---All banks---");
@@ -136,7 +145,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    private void makingLinearLayoutTop(String bName){
+    private void makingLinearLayoutTop(String bName, int id){
         String num = helper.queryBankCols("bank_num", "bank_name",bName);
         LinearLayout main = new LinearLayout(getContext());
         //main.setBackground(ResourcesCompat.getDrawable(
@@ -157,6 +166,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 LinearLayout.LayoutParams.WRAP_CONTENT, 0.5f));
         image.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
         image.setImageResource(R.drawable.edit_symbol);
+        image.setId(id);
+        image.setOnClickListener(this);
+        userData.add(new UserData(bName,num, id));
         top.addView(getView(bName, 2.25f));
         top.addView(getView(num, 2.25f));
         top.addView(image);
@@ -246,11 +258,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.check_a_day_button){
+        int id = view.getId();
+        if(id== R.id.check_a_day_button){
             querying("",0);
         }
-        if(view.getId() == R.id.check_a_month_button){
+        if(id== R.id.check_a_month_button){
             querying("", 1);
+        }
+
+        for(UserData data: userData){
+            if(data.getButtonId() == id){
+                String bn = data.getEditTextId();
+                String bnum = data.getBankNumID();
+                Log.d(TAG, bn+"-->"+bnum);
+                AlertDialogue(bn, bnum);
+            }
         }
     }
 
@@ -301,5 +323,54 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         }
 
         return true;
+    }
+
+    private void AlertDialogue(String bankName, String num){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("RENAME '"+bankName+"'");
+
+        final String numF = num;
+        final EditText input = new EditText(getContext());
+
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String newName = input.getText().toString();
+                int status = helper.updateRow("BANKS","bank_name",newName, numF,"bank_num=?");
+                if(status !=-1){
+                    Toast.makeText(getContext(), "Updated", Toast.LENGTH_LONG).show();
+                    refreshFragment();
+                }
+                else if(status == -2){
+                    Toast.makeText(getContext(), "Bank name already exists", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getContext(), "Failed to Updated", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+    private void refreshFragment(){
+        Fragment currentFragment = getActivity().getSupportFragmentManager().
+                findFragmentById(R.id.nav_host_fragment);
+        currentFragment = currentFragment.getChildFragmentManager().getFragments().get(0);
+        Log.d(TAG, "got the fragment "+currentFragment.getTag());
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.detach(currentFragment);
+        fragmentTransaction.attach(currentFragment);
+        fragmentTransaction.commit();
     }
 }

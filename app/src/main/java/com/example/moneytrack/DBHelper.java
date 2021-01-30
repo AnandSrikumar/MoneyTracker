@@ -18,10 +18,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "MyDBName.db";
     public static final String PASSWORD_TB = "password";
     public static final String BANKS = "banks";
+    public static final String DATE = "date";
     public static final String CREATE_PASSWORD = "create table "+PASSWORD_TB+" (password varchar2(100))";
     public static final String CREATE_BANKS = "create table "+BANKS+" (bank_name varchar2(100) unique" +
             ", bank_sms varchar2(100) , bank_id varchar2(50), bank_num varchar2(20) unique)";
-
+    public static final String CREATE_DATE = "create table "+DATE+" (last_log varchar2(100))";
     public SQLiteDatabase db;
 
     public DBHelper(Context context) {
@@ -33,12 +34,14 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(CREATE_PASSWORD);
         db.execSQL(CREATE_BANKS);
+        db.execSQL(CREATE_DATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists "+PASSWORD_TB);
         db.execSQL("drop table if exists "+BANKS);
+        db.execSQL("DROP table if exists "+DATE);
         onCreate(db);
 
     }
@@ -201,5 +204,35 @@ public class DBHelper extends SQLiteOpenHelper {
         String nm= r.moveToFirst()?r.getString(0):"";
         return nm;
     }
+
+    public int updateRow(String tableName,String col,String newName, String num, String where){
+
+        ContentValues vals = new ContentValues();
+        vals.put(col, newName);
+        int a;
+        try {
+            if (num.isEmpty()) {
+                Cursor r = db.rawQuery("select last_log from date",null);
+                if(!r.moveToFirst()){
+                    a = (int)db.insert(tableName, null,vals);
+                    return a;
+                }
+                a = db.update(tableName, vals, null, null);
+                return a;
+            }
+
+            a = db.update(tableName, vals, where, new String[]{num});
+            return a;
+        }catch(Exception e){
+            return -2;
+        }
+
+    }
+    public String queryDate(){
+        Cursor r = db.rawQuery("select last_log from date",null);
+
+        return r.moveToFirst()?r.getString(0):"N/A";
+    }
+
 
 }
